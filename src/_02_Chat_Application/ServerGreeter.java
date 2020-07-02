@@ -1,4 +1,4 @@
-package _01_Intro_To_Sockets.server;
+package _02_Chat_Application;
 
 import java.net.*;
 
@@ -43,19 +43,21 @@ public class ServerGreeter extends Thread {
 				System.out.println("The client has connected.");
 				// 11. Create a DataInputStream object. When initializing it, use the Socket
 				// object you created in step 9 to call the getInputStream() method.
+				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				DataInputStream dis = new DataInputStream(s.getInputStream());
 				// 12. Print the message from the DataInputStream object using the readUTF()
 				// method
-				System.out.println(dis.readUTF());
-				// 13. Create a DataOutputStream object. When initializing it, use the Server
-				// object you created in step 9 to call the getOutputStream() method.
-				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-				// 14. Use the DataOutputStream object to send a message to the client using the
-				// writeUTF(String message) method.
-				sendMessage(dos);
-				// dos.writeUTF("ayo");
-				// 15. Close the client server
-				s.close();
+				while (s.isConnected()) {
+					System.out.println(dis.readUTF());
+					// 13. Create a DataOutputStream object. When initializing it, use the Server
+					// object you created in step 9 to call the getOutputStream() method.
+					// 14. Use the DataOutputStream object to send a message to the client using the
+					// writeUTF(String message) method.
+					dos.writeUTF(sendMessage());
+					// dos.writeUTF("ayo");
+					// 15. Close the client server
+					//s.close();
+				}
 			} catch (SocketTimeoutException e) {
 				// 6. If the program catches a SockeTimeoutException, let the user know about it
 				// and set loop's boolean variable to false.
@@ -71,8 +73,10 @@ public class ServerGreeter extends Thread {
 
 	}
 
-	public void sendMessage(DataOutputStream dos) {
+	public String sendMessage() {
 		serverMessage = JOptionPane.showInputDialog("What's your message?");
+		ca.run(serverMessage);
+		return serverMessage;
 	}
 
 	public static void main(String[] args) {
