@@ -10,7 +10,6 @@ public class ServerGreeter extends Thread {
 	// 1. Create an object of the ServerSocket class
 	ServerSocket ss;
 	String serverMessage;
-	ChatApp ca = new ChatApp();
 
 	public ServerGreeter() throws IOException {
 		// 2. Initialize the ServerSocket object. In the parameters,
